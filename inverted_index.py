@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import spacy
 
-data = pd.read_json(r'C:\Users\lucap\PycharmProjects\pythonProject\crawlertest\data.json')  #
+data = pd.read_json(r'C:\Users\lucap\PycharmProjects\pythonProject\crawlertest\data.json')
 """
 # Figure out how to implement docID
 
@@ -12,9 +12,8 @@ data = pd.read_json(r'C:\Users\lucap\PycharmProjects\pythonProject\crawlertest\d
 # Convert columns to string format (Spacy only takes string as input).
 def string_conv(x):
     x = str(x)
-    x = x.replace("\n", " ")
+    x = x.replace("\n", "")
     x = x.lower()
-    x = x.strip()
     return (x)
 
 titles = string_conv(data['Title'])
@@ -23,7 +22,7 @@ eec_authors = string_conv(data['EEC Authors'])
 
 nlp = spacy.load("en_core_web_sm")  # Load trained pipeline for Spacy.
 
-# Create documents from using trained pipeline - Tokenisation already occurs here.
+# Create documentS using trained pipeline - Tokenisation already occurs here.
 titles_docs = nlp(titles)
 authors_docs = nlp(authors)
 eec_authors_docs = nlp(eec_authors)
@@ -61,3 +60,24 @@ eec_authors_docs = remove_stop_words(eec_authors_docs)
 titles_docs = string_conv(titles_docs)
 authors_docs = string_conv(authors_docs)
 eec_authors_docs = string_conv(eec_authors_docs)
+
+# Convert back to Document
+titles_docs = nlp(titles_docs)
+authors_docs = nlp(authors_docs)
+eec_authors_docs = nlp(eec_authors_docs)
+
+# Remove punctuation
+titles_docs = [token for token in titles_docs if not token.is_punct]
+authors_docs = [token for token in authors_docs if not token.is_punct]
+eec_authors_docs = [token for token in eec_authors_docs if not token.is_punct]
+
+# Lemmatise function
+def lemmatise(doc):
+    lemmas = []
+    for token in doc:
+        lemmas.append(token.lemma_)
+    return(lemmas)
+
+new_titles_docs = lemmatise(titles_docs)
+new_authors_docs = lemmatise(authors_docs)
+new_eec_authors_docs = lemmatise(eec_authors_docs)
