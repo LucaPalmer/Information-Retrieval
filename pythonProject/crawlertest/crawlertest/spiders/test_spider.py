@@ -1,3 +1,5 @@
+# This is the spider script used in the video.
+
 import scrapy
 
 class CovSpider(scrapy.Spider):
