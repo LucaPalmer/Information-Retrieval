@@ -1,3 +1,5 @@
+# This was the first attempt at creating the inverted index manually. It started with preprocessing the text.
+
 import numpy as np
 import pandas as pd
 import spacy
